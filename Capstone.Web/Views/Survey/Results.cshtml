@@ -1,0 +1,29 @@
+﻿@model NationalPark
+@{
+    ViewBag.Title = "Index";
+    Dictionary<string, int> SurveyResults = (Dictionary<string, int>)ViewData["surveys"];
+    IList<NationalPark> parks = (IList<NationalPark>)ViewData["get-parks"];
+
+}
+    <section class="logo">
+        <img src="~/images/logo.png" />
+    </section>
+
+    <section class="centeredPanel">
+
+        <h2>Park Survey Results</h2>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        @foreach (KeyValuePair<string, int> kvp in SurveyResults)
+        {
+            <div class="survey">
+                @for (int i = 0; i < parks.Count; i++)
+                {
+                    if (parks[i].ParkCode == kvp.Key)
+                    {
+                        <p><img src=@Url.Content($"~/images/parks/{parks[i].ParkCode}.jpg") /> @parks[i].ParkName - @kvp.Value Vote(s)</p>
+                    }
+                }
+
+            </div>
+        }
+    </section>

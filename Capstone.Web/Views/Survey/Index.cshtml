@@ -1,0 +1,44 @@
+﻿@model Survey
+@{
+    ViewBag.Title = "Index";
+    List<Survey> surveys = (List<Survey>)ViewData["survey"];
+}
+    <section class="logo">
+        <img src="~/images/logo.png" />
+    </section>
+    <section class="centeredPanel">
+        <h2>New Park Survey</h2>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <form asp-controller="Survey" asp-action="NewSurvey" method="post">
+            <div>
+                <label asp-for="ParkCode"></label>
+                <select asp-for="ParkCode" asp-items="Survey.nationalParks"></select>
+                <span asp-validation-for="ParkCode"></span>
+
+            </div>
+
+            <div>
+                <label asp-for="Email"></label>
+                <input type="text" asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+            </div>
+
+            <div>
+                <label asp-for="State"></label>
+                <select asp-for="State" asp-items="Survey.states"></select>
+                <span asp-validation-for="State"></span>
+
+            </div>
+
+            <div>
+                <label asp-for="ActivityLevel"></label>
+                <select asp-for="ActivityLevel" asp-items="Survey.activyLevel"></select>
+                <span asp-validation-for="ActivityLevel"></span>
+
+            </div>
+
+            <input type="submit" value="Submit!" />
+        </form>
+    </section>
+
+

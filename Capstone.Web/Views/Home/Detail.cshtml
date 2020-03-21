@@ -1,0 +1,87 @@
+﻿@model NationalPark
+@{
+    ViewData["Title"] = "Detail";
+    UserPreferences tempSelection = (UserPreferences)ViewData["user_preferences"];
+
+}
+
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<section class="logo">
+    <img src="~/images/logo.png" />
+</section>
+
+
+<section class="centeredPanel">
+    <div class="Detail">
+        <p><img src=@Url.Content($"~/images/parks/{Model.ParkCode}.jpg") alt="@Model.ParkName" /></p>
+        <p><b>@Model.ParkName</b></p>
+        <p><b>State: </b>@Model.State</p>
+        <p><b>Acreage: </b>@Model.Acreage</p>
+        <p><b>Elevation: </b>@Model.Elevation</p>
+        <p><b>Miles of Trail: </b>@Model.MilesTrail</p>
+        <p><b>Number of Campsites: </b>@Model.NumberCampsites</p>
+        <p><b>Park Description: </b>@Model.ParkDescription</p>
+        <p><b>Climate: </b>@Model.Climate</p>
+        <p><b>Inspirational Quote: </b>"@Model.Quote" - @Model.QuoteSource</p>
+        <p><b>Year Founded: </b>@Model.YearFounded</p>
+        <p><b>Annual Visitors: </b>@Model.AnnualVisitors</p>
+        <p><b>Entry Fee: </b>@Model.EntryFee</p>
+        <p><b>Number of Animal Species: </b>@Model.NumberAnimalSpecies</p>
+
+    </div>
+</section>
+
+<section class="weather">
+    <form asp-controller="Home" asp-action="SwitchTempType" asp-route-parkCode="@Model.ParkCode" method="post">
+        <div>
+            <input type="submit" value="Switch Between Farenheit & Celcius" />
+        </div>
+    </form>
+
+    <h2>Today's Forecast</h2>
+    <div class="today">
+        <p><img src=@Url.Content($"~/images/weather/{Model.forecasts[0].Forecast}.png") alt="@Model.forecasts[0].Forecast" /></p>
+
+        @if (tempSelection.isFarenheit)
+        {
+            <p>Low Temp: @Model.forecasts[0].Low Farenheit</p>
+            <p>High Temp: @Model.forecasts[0].High Farenheit</p>
+            <p>ForeCast: @Model.forecasts[0].Forecast</p>
+            <p>Weather Advisory: @Model.forecasts[0].GetMessage()</p>
+
+        }
+        else
+        {
+            <p>Low Temp: @((Model.forecasts[0].Low - 32) * 5 / 9) Celcius</p>
+            <p>High Temp: @((Model.forecasts[0].High - 32) * 5 / 9) Celcius</p>
+            <p>ForeCast: @Model.forecasts[0].Forecast</p>
+            <p>Weather Advisory: @Model.forecasts[0].GetMessage()</p>
+        }
+    </div>
+    <br />
+
+    @for (int i = 1; i < Model.forecasts.Count; i++)
+    {
+        <div class="four-day">
+            <p><img src=@Url.Content($"~/images/weather/{Model.forecasts[i].Forecast}.png") alt="@Model.forecasts[i].Forecast" /></p>
+            @if (tempSelection.isFarenheit)
+            {
+                <p>Low Temp: @Model.forecasts[i].Low Farenheit</p>
+                <p>High Temp: @Model.forecasts[i].High Farenheit</p>
+                <p>Forecast: @Model.forecasts[i].Forecast</p>
+                <p>Weather Advisory: @Model.forecasts[0].GetMessage()</p>
+            }
+            else
+            {
+                <p>Low Temp: @((Model.forecasts[i].Low - 32) * 5 / 9) Celcius</p>
+                <p>High Temp: @((Model.forecasts[i].High - 32) * 5 / 9) Celcius</p>
+                <p>ForeCast: @Model.forecasts[i].Forecast</p>
+                <p>Weather Advisory: @Model.forecasts[0].GetMessage()</p>
+            }
+
+        </div>
+    }
+
+</section>
